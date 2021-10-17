@@ -3,6 +3,7 @@ from flask import render_template
 from flask import request
 from flask import jsonify
 from flask import send_from_directory
+import json
 
 from data import data
 
@@ -20,6 +21,11 @@ class JEPES:
         JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["CFT"]["CPL"] = self.convert_json_to_dict(JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["CFT"]["CPL"])
         JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["PFT"]["LCPL"] = self.convert_json_to_dict(JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["PFT"]["LCPL"])
         JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["CFT"]["LCPL"] = self.convert_json_to_dict(JEPES.raw_score_table["PHYSICAL TOUGHNESS"]["CFT"]["LCPL"])
+        #JEPES.raw_score_table["WARFIGHTING"]["RIFLE"]["ARQ21"] = self.convert_json_to_dict(JEPES.raw_score_table["WARFIGHTING"]["RIFLE"]["ARQ21"])
+        
+        JEPES.raw_score_table["WARFIGHTING"]["RIFLE"]["ARQ22"] = {
+            str(k): v for k, v in JEPES.raw_score_table["WARFIGHTING"]["RIFLE"]["ARQ22"].items()
+        }
 
         self.arq21 = self.convert_json_to_dict(
             JEPES.raw_score_table["WARFIGHTING"]["RIFLE"]["ARQ21"]
@@ -58,16 +64,6 @@ class JEPES:
         return composite
 
     def get_bonus(self,  bonus_json):
-        """
-        "Bonus": {
-        "DI School": False,
-        "Recruiting School": False,
-        "MSG School": False,
-        "Combat Instructor": False,
-        "MC Sec. Forces": False,
-        "Command rec. Bonus": 0
-        }
-        """
         total = 0
         values = bonus_json.values()
         for bonus in values:
