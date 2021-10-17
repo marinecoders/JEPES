@@ -1,4 +1,4 @@
-raw_score_table = {
+data = {
     "WARFIGHTING": {
         "RIFLE": {
             "ARQ21": {
