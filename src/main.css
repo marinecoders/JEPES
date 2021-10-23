@@ -45,3 +45,13 @@
     background-color: #fafad2;
     border-color: #ffd700;
 }
+
+@media only screen and (max-width: 960px) {
+    .row {
+        display: block;
+        flex-direction: row-reverse;
+    }
+    .row > * {
+        width: 100%;
+    }
+}
