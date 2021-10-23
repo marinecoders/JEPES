@@ -142,13 +142,13 @@
                                 <div>Mental Agility - 25%</div>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">Marine Net Courses</span>
-                                <input type="text" id="marineNetCEUs" class="form-control" placeholder="Total CEUs">
-                                <button type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
+                                <span class="input-group-text">a. Marine Net Courses</span>
+                                <input type="number" id="marineNetScore" min="0" max="40" class="form-control" placeholder="Total CEUs">
+                                <button id="marineNetValue" type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
                                 <button type="button" class="btn btn-outline-dark btn-sm" disabled>40</button>
                             </div>
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="degreeSelector">Degree</label>
+                                <label class="input-group-text" for="degreeSelector">b. Degree</label>
                                 <select class="form-select" id="degreeSelector">
                                     <option value="0" selected>None</option>
                                     <option value="10">Associates</option>
@@ -159,19 +159,19 @@
                                 <button type="button" class="btn btn-outline-dark btn-sm" disabled>20</button>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">CRS-SVS</span>
-                                <input type="text" id="CRSSVSScore" class="form-control" placeholder="Value">
-                                <button type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
+                                <span class="input-group-text">c. CRS-SVS</span>
+                                <input type="number" min="0" max="2" id="CRSSVSScore" class="form-control" placeholder="Value">
+                                <button id="CRSSVSValue" type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
                                 <button type="button" class="btn btn-outline-dark btn-sm" disabled>20</button>
                             </div>
                             <div class="input-group mb-3">
-                                <span class="input-group-text">CRS-GRD</span>
-                                <input type="text" id="CRSGRDScore" class="form-control" placeholder="Value">
-                                <button type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
+                                <span class="input-group-text">d. CRS-GRD</span>
+                                <input id="CRSGRDScore" type="number" min="0" max="2" id="CRSGRDScore" class="form-control" placeholder="Value">
+                                <button id="CRSGRDValue" type="button" class="btn btn-outline-success btn-sm" disabled>0</button>
                                 <button type="button" class="btn btn-outline-dark btn-sm" disabled>20</button>
                             </div>
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="MOSandQualsSelector">MOS CQs</label>
+                                <label class="input-group-text" for="MOSandQualsSelector">e. MOS CQs</label>
                                 <select class="form-select" id="MOSandQualsSelector">
                                     <option value="0" selected>None</option>
                                     <option value="30">CDI</option>
@@ -184,7 +184,14 @@
                                     disabled>0</button>
                                 <button type="button" class="btn btn-outline-dark btn-sm" disabled>100</button>
                             </div>
-                            <div class="alert alert-warning d-flex align-items-center" role="alert">
+                            <div class="math input-group mb-3">
+                                <button type="button" class="btn btn-secondary" disabled>Total</button>
+                                <input id="mentalAgilityCalculation" class="form-control" type="text"
+                                    value="( a + b + c  + d + e + f ) x 1.25" disabled>
+                                <button id="mentalAgilityTotal" type="button" class="btn btn-secondary btn-sm"
+                                    disabled>0</button>
+                            </div>
+                            <div class="alert alert-command d-flex align-items-center" role="alert">
                                 <i class="fas fa-users"></i>
                                 <div>Command Input - 25%</div>
                             </div>
@@ -220,7 +227,7 @@
                                 <button id="commandCalculationTotal" type="button" class="btn btn-secondary btn-sm"
                                     disabled>0</button>
                             </div>
-                            <div class="alert alert-info d-flex align-items-center" role="alert">
+                            <div class="alert alert-bonus d-flex align-items-center" role="alert">
                                 <i class="fas fa-stars"></i>
                                 <div>Bonus - Max 100 pts</div>
                             </div>
@@ -315,24 +322,24 @@
                         <div class="input-group mb-3">
                             <span class="text-success input-group-text"><i style="height: 16px; width: 16px;"
                                     class="fas fa-university"></i></span>
-                            <button type="button" class="btn btn-success" disabled>0</button>
+                            <button type="button" id="mentalAgilityTotalBoard" class="btn btn-success" disabled>0</button>
                             <input class="form-control" type="text" value="Mental Agility" aria-label="Mental Agility"
                                 disabled readonly>
-                            <button type="button" class="btn btn-outline-success" disabled>0%</button>
+                            <button type="button" id="mentalAgilityPercBoard" class="btn btn-outline-success" disabled>0%</button>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="text-warning input-group-text"><i style="height: 16px; width: 16px;"
+                            <span class="text-command input-group-text"><i style="height: 16px; width: 16px;"
                                     class="fas fa-users"></i></span>
-                            <button type="button" id="commandTotalBoard" class="btn btn-warning" disabled>0</button>
+                            <button type="button" id="commandTotalBoard" class="btn btn-command" disabled>0</button>
                             <input class="form-control" type="text" value="Command Input" aria-label="Command Input"
                                 disabled readonly>
                             <button type="button" id="commandPercBoard" class="btn btn-outline-success"
                                 disabled>0%</button>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="text-info input-group-text"><i style="height: 16px; width: 16px;"
+                            <span class="text-bonus input-group-text"><i style="height: 16px; width: 16px;"
                                     class="fas fa-stars"></i></span>
-                            <button type="button" id="bonusTotalBoard" class="btn btn-info" disabled>0</button>
+                            <button type="button" id="bonusTotalBoard" class="btn btn-bonus" disabled>0</button>
                             <input class="form-control" type="text" value="Bonus" aria-label="Bonus" disabled readonly>
                             <button type="button" id="bonusPercBoard" class="btn btn-outline-success"
                                 disabled>0%</button>

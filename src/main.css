@@ -12,3 +12,36 @@
 .math input {
     padding: 5px 5px 5px 5px;
 }
+
+.text-command {
+    color: #9D4EDD;
+}
+
+.alert-command {
+    color: #551B88;
+    background-color: #E2CCF5;
+    border-color: #E2CCF5;
+}
+
+.btn-command {
+    color: white;
+    background-color: #9D4EDD;
+    border-color: #9D4EDD;
+}
+
+.text-bonus {
+    color: #ffd700;
+}
+
+.alert-bonus {
+    color: #9e7409;
+    background-color: #fafad2;
+    border-color: #ffd700;
+
+}
+
+.btn-bonus {
+    color: black;
+    background-color: #fafad2;
+    border-color: #ffd700;
+}

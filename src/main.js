@@ -1,8 +1,8 @@
 const belts = {
     LCPL: [
-        ['MMA', 'UNQUAL'], 
+        ['MMA', 'UNQUAL'],
         ['MMB', 'TAN'],
-        ['MMC', 'GRAY'], 
+        ['MMC', 'GRAY'],
         ['MMD', 'GREEN']
     ],
     CPL: [
@@ -12,7 +12,7 @@ const belts = {
     ]
 }
 
-const score_table = {
+let score_table = {
     "WARFIGHTING": {
         "RIFLE": {
             "ARQ21": {
@@ -1768,23 +1768,21 @@ const score_table = {
     }
 }
 
-// MCMAP
-const mcmapBelt = document.getElementById('mcmapBelt');
-const mcmapBeltValue = document.getElementById('mcmapBeltValue');
-mcmapBelt.addEventListener('change', updateMcmap);
 
-function updateMcmap(e){
-    let _score = score_table["WARFIGHTING"]["MCMAP"][rankSelector.value.toUpperCase()][mcmapBelt.value.toUpperCase()]
-    mcmapBeltValue.innerHTML = _score[0];
-    warCalculateTotal()
-}
+score_table["PHYSICAL TOUGHNESS"]["PFT"]["PVT"] = score_table["PHYSICAL TOUGHNESS"]["PFT"]["LCPL"]
+score_table["PHYSICAL TOUGHNESS"]["PFT"]["PFC"] = score_table["PHYSICAL TOUGHNESS"]["PFT"]["LCPL"]
+score_table["PHYSICAL TOUGHNESS"]["CFT"]["PVT"] = score_table["PHYSICAL TOUGHNESS"]["CFT"]["LCPL"]
+score_table["PHYSICAL TOUGHNESS"]["CFT"]["PFC"] = score_table["PHYSICAL TOUGHNESS"]["CFT"]["LCPL"]
+score_table["WARFIGHTING"]["MCMAP"]["PVT"] = score_table["WARFIGHTING"]["MCMAP"]["LCPL"]
+score_table["WARFIGHTING"]["MCMAP"]["PFC"] = score_table["WARFIGHTING"]["MCMAP"]["LCPL"]
+
 
 //rankSelector
 const rankSelector = document.getElementById("rankSelector");
 rankSelector.addEventListener('change', updateRank);
 
-function updateRank(e){
-    if (rankSelector.value == "Cpl"){
+function updateRank(e) {
+    if (rankSelector.value == "Cpl") {
         belts["CPL"].forEach(element => {
             var opt = document.createElement('option');
             opt.value = element[0];
@@ -1803,6 +1801,21 @@ function updateRank(e){
             mcmapBelt.appendChild(opt);
         });
     }
+
+    updateCFT()
+    updatePFT()
+    updateMcmap()
+}
+
+// MCMAP
+const mcmapBelt = document.getElementById('mcmapBelt');
+const mcmapBeltValue = document.getElementById('mcmapBeltValue');
+mcmapBelt.addEventListener('change', updateMcmap);
+
+function updateMcmap(e) {
+    let _score = score_table["WARFIGHTING"]["MCMAP"][rankSelector.value.toUpperCase()][mcmapBelt.value.toUpperCase()]
+    mcmapBeltValue.innerHTML = _score[0];
+    warCalculateTotal()
 }
 
 // rangeDestroys
@@ -1814,11 +1827,11 @@ const rangeScore = document.getElementById('rangeScore');
 rangeDestroys.addEventListener('change', updateRange);
 rangeDrills.addEventListener('change', updateRange);
 
-function updateRange(e){
-    if (rangeDestroys.value && rangeDrills.value){
+function updateRange(e) {
+    if (rangeDestroys.value && rangeDrills.value) {
         let _value = '(' + rangeDestroys.value + ', ' + rangeDrills.value + ')';
         let _score = score_table['WARFIGHTING']['RIFLE']['ARQ22'][_value]
-        if (_score){
+        if (_score) {
             rangeScore.innerHTML = _score[0]
             rangeScore.classList.remove('btn-outline-danger');
             rangeScore.classList.add('btn-outline-success');
@@ -1831,20 +1844,17 @@ function updateRange(e){
     }
 }
 
-function warCalculateTotal(){
+function warCalculateTotal() {
     let _range = Number.isInteger(rangeScore.innerHTML) ? 0 : rangeScore.innerHTML;
     let _belt = Number.isInteger(mcmapBeltValue.innerHTML) ? 0 : mcmapBeltValue.innerHTML;
 
-    warCalculation.value = "( " + _range + " + "  + _belt + " ) x 1.25";
+    warCalculation.value = "( " + _range + " + " + _belt + " ) x 1.25";
     warTotal.innerHTML = (parseInt(_range) + parseInt(_belt)) * 1.25;
     warTotalBoard.innerHTML = warTotal.innerHTML;
-    warPercBoard.innerHTML = Math.round( (warTotal.innerHTML / 250) * 100) + '%';
+    warPercBoard.innerHTML = Math.round((warTotal.innerHTML / 250) * 100) + '%';
     calculateJepes()
-    
+
 }
-
-
-
 
 // PFT Updater
 const pftScore = document.getElementById('pftScore');
@@ -1855,7 +1865,7 @@ pftScore.addEventListener('change', updatePFT);
 function updatePFT(e) {
     let _score = score_table['PHYSICAL TOUGHNESS']['PFT'][rankSelector.value.toUpperCase()][pftScore.value];
     console.log(_score);
-    if (_score){
+    if (_score) {
         pftScoreJValue.innerHTML = _score;
         pftScoreJValue.classList.add("is-valid")
         pftScoreJValue.classList.add('btn-outline-success')
@@ -1878,10 +1888,10 @@ const physicalPercBoard = document.getElementById('physicalPercBoard');
 cftScore.addEventListener('change', updateCFT);
 
 function updateCFT(e) {
-    
+
     let _score = score_table['PHYSICAL TOUGHNESS']['CFT'][rankSelector.value.toUpperCase()][cftScore.value];
     console.log(_score);
-    if (_score){
+    if (_score) {
         cftScoreJValue.innerHTML = _score;
         cftScoreJValue.classList.add("is-valid")
         cftScoreJValue.classList.add('btn-outline-success')
@@ -1894,17 +1904,20 @@ function updateCFT(e) {
     }
 }
 
-function calculateTotal(){
+function calculateTotal() {
     let pft = Number.isInteger(pftScoreJValue.innerHTML) ? 0 : pftScoreJValue.innerHTML;
     let cft = Number.isInteger(cftScoreJValue.innerHTML) ? 0 : cftScoreJValue.innerHTML;
 
-    physicalCalculation.value = "( " + pft + " + "  + cft + " ) x 1.25";
+    physicalCalculation.value = "( " + pft + " + " + cft + " ) x 1.25";
     physicalTotal.innerHTML = (parseInt(pft) + parseInt(cft)) * 1.25;
 
     physicalTotalBoard.innerHTML = physicalTotal.innerHTML
-    physicalPercBoard.innerHTML = Math.round( (physicalTotalBoard.innerHTML / 250) * 100) + '%';
+    physicalPercBoard.innerHTML = Math.round((physicalTotalBoard.innerHTML / 250) * 100) + '%';
     calculateJepes()
 }
+
+
+//
 
 // Bonus Selectors
 
@@ -1915,7 +1928,7 @@ const bonus_DICheckValue = document.getElementById('bonus_DICheckValue');
 bonus_DICheck.addEventListener('click', DICheckUpdater);
 
 function DICheckUpdater(e) {
-    bonus_DICheckValue.innerHTML = bonus_DICheck.checked ? '50':'0';
+    bonus_DICheckValue.innerHTML = bonus_DICheck.checked ? '50' : '0';
     totalBonus()
 }
 
@@ -1926,7 +1939,7 @@ const bonus_RecruiterCheckValue = document.getElementById('bonus_RecruiterCheckV
 bonus_RecruiterCheck.addEventListener('click', RecruiterCheckUpdater);
 
 function RecruiterCheckUpdater(e) {
-    bonus_RecruiterCheckValue.innerHTML = bonus_RecruiterCheck.checked ? '50':'0';
+    bonus_RecruiterCheckValue.innerHTML = bonus_RecruiterCheck.checked ? '50' : '0';
     totalBonus()
 }
 
@@ -1937,7 +1950,7 @@ const bonus_SecurityGuardCheckValue = document.getElementById('bonus_SecurityGua
 bonus_SecurityGuardCheck.addEventListener('click', SecurityGuardCheckUpdater);
 
 function SecurityGuardCheckUpdater(e) {
-    bonus_SecurityGuardCheckValue.innerHTML = bonus_SecurityGuardCheck.checked ? '50':'0';
+    bonus_SecurityGuardCheckValue.innerHTML = bonus_SecurityGuardCheck.checked ? '50' : '0';
     totalBonus()
 }
 
@@ -1948,7 +1961,7 @@ const bonus_CombatInstructorCheckValue = document.getElementById('bonus_CombatIn
 bonus_CombatInstructorCheck.addEventListener('click', CombatInstructorCheckCheckUpdater);
 
 function CombatInstructorCheckCheckUpdater(e) {
-    bonus_CombatInstructorCheckValue.innerHTML = bonus_CombatInstructorCheck.checked ? '50':'0';
+    bonus_CombatInstructorCheckValue.innerHTML = bonus_CombatInstructorCheck.checked ? '50' : '0';
     totalBonus()
 }
 
@@ -1959,7 +1972,7 @@ const bonus_MCSFCheckValue = document.getElementById('bonus_MCSFCheckValue');
 bonus_MCSFCheck.addEventListener('click', MCSFCheckUpdater);
 
 function MCSFCheckUpdater(e) {
-    bonus_MCSFCheckValue.innerHTML = bonus_MCSFCheck.checked ? '50':'0';
+    bonus_MCSFCheckValue.innerHTML = bonus_MCSFCheck.checked ? '50' : '0';
     totalBonus()
 }
 
@@ -1968,8 +1981,8 @@ const bonus_commandValue = document.getElementById('bonus_commandValue')
 
 bonus_command.addEventListener('change', CommandBonusUpdater)
 
-function CommandBonusUpdater(e){
-    if (bonus_command.checkValidity()){
+function CommandBonusUpdater(e) {
+    if (bonus_command.checkValidity()) {
         bonus_commandValue.innerHTML = bonus_command.value * 20;
         bonus_commandValue.classList.add('btn-outline-success')
         bonus_commandValue.classList.remove('btn-outline-danger')
@@ -1981,7 +1994,7 @@ function CommandBonusUpdater(e){
     }
 }
 
-function totalBonus(){
+function totalBonus() {
     let a = bonus_DICheckValue.innerHTML
     let b = bonus_RecruiterCheckValue.innerHTML
     let c = bonus_SecurityGuardCheckValue.innerHTML
@@ -1991,9 +2004,9 @@ function totalBonus(){
     //bonusCalculation
     //bonusCalculationTotal
     total = parseInt(a) + parseInt(b) + parseInt(c) + parseInt(d) + parseInt(e) + parseInt(f);
-    bonusCalculation.value = "( "+a+" + "+b+" + "+c+" + "+d+" + "+e+" + "+f+" ) < 100";
+    bonusCalculation.value = "( " + a + " + " + b + " + " + c + " + " + d + " + " + e + " + " + f + " ) < 100";
 
-    if (total > 100){
+    if (total > 100) {
         total = 100;
     }
     bonusCalculationTotal.innerHTML = total;
@@ -2008,8 +2021,8 @@ const MOSMSNScoreValue = document.getElementById('MOSMSNScoreValue')
 
 MOSMSNScore.addEventListener('change', MOSMSNUpdater)
 
-function MOSMSNUpdater(e){
-    if (MOSMSNScore.value >= 0 && MOSMSNScore.value <= 5){
+function MOSMSNUpdater(e) {
+    if (MOSMSNScore.value >= 0 && MOSMSNScore.value <= 5) {
         MOSMSNScoreValue.innerHTML = Math.round(MOSMSNScore.value * 50)
         commandCalculationUpdater()
     }
@@ -2020,8 +2033,8 @@ const LeadershipScoreValue = document.getElementById('LeadershipScoreValue')
 
 LeadershipScore.addEventListener('change', LeadershipUpdater)
 
-function LeadershipUpdater(e){
-    if (LeadershipScore.value >= 0 && LeadershipScore.value <= 5){
+function LeadershipUpdater(e) {
+    if (LeadershipScore.value >= 0 && LeadershipScore.value <= 5) {
         LeadershipScoreValue.innerHTML = Math.round(LeadershipScore.value * 50)
         commandCalculationUpdater()
     }
@@ -2033,8 +2046,8 @@ const CharacterScoreValue = document.getElementById('CharacterScoreValue')
 CharacterScore.addEventListener('change', CharacterUpdater)
 
 
-function CharacterUpdater(e){
-    if (CharacterScore.value >= 0 && CharacterScore.value <= 5){
+function CharacterUpdater(e) {
+    if (CharacterScore.value >= 0 && CharacterScore.value <= 5) {
         CharacterScoreValue.innerHTML = Math.round(CharacterScore.value * 50)
         commandCalculationUpdater()
     }
@@ -2048,13 +2061,13 @@ const commandCalculationTotal = document.getElementById('commandCalculationTotal
 const commandTotalBoard = document.getElementById('commandTotalBoard');
 const commandPercBoard = document.getElementById('commandPercBoard');
 
-function commandCalculationUpdater(e){
+function commandCalculationUpdater(e) {
     let a = parseFloat(MOSMSNScoreValue.innerHTML) ? parseFloat(MOSMSNScoreValue.innerHTML) : 0;
     let b = parseFloat(LeadershipScoreValue.innerHTML) ? parseFloat(LeadershipScoreValue.innerHTML) : 0;
     let c = parseFloat(CharacterScoreValue.innerHTML) ? parseFloat(CharacterScoreValue.innerHTML) : 0;
 
-    if (a && b && c){
-        commandCalculation.value = "( " + a +" + " + b + " + " + c + " ) / 3";
+    if (a && b && c) {
+        commandCalculation.value = "( " + a + " + " + b + " + " + c + " ) / 3";
         commandCalculationTotal.innerHTML = Math.round((a + b + c) / 3);
 
         commandTotalBoard.innerHTML = commandCalculationTotal.innerHTML;
@@ -2064,28 +2077,110 @@ function commandCalculationUpdater(e){
 
 }
 
+
+// Mental Agility
+
+// marinenet
+const marineNetScore = document.getElementById('marineNetScore')
+const marineNetValue = document.getElementById('marineNetValue')
+
+marineNetScore.addEventListener('change', marineNetEvent)
+
+function marineNetEvent(e){
+    if (marineNetScore.checkValidity()){
+        marineNetValue.innerHTML = marineNetScore.value;
+        marineNetValue.classList.add('btn-outline-success')
+        marineNetValue.classList.remove('btn-outline-danger')
+        mentalAgilityUpdater()
+    } else {
+        marineNetValue.classList.remove('btn-outline-success')
+        marineNetValue.classList.add('btn-outline-danger')
+        marineNetValue.innerHTML = '<i class="bi bi-exclamation-lg"></i>'
+    }
+}
+
+
+// other
 const MOSandQualsSelector = document.getElementById('MOSandQualsSelector')
 const MOSandQualsValue = document.getElementById('MOSandQualsValue')
 
 MOSandQualsSelector.addEventListener('change', MOSandQualsEvent)
 
-function MOSandQualsEvent(e){
+function MOSandQualsEvent(e) {
     MOSandQualsValue.innerHTML = MOSandQualsSelector.value;
+    mentalAgilityUpdater()
 }
 
+
+// College
 const degreeSelector = document.getElementById('degreeSelector')
 const degreeValue = document.getElementById('degreeValue')
 
 degreeSelector.addEventListener('change', degreeEvent)
 
-function degreeEvent(e){
+function degreeEvent(e) {
     degreeValue.innerHTML = degreeSelector.value;
+    mentalAgilityUpdater()
 }
 
-function calculateJepes(){
+const CRSSVSScore = document.getElementById('CRSSVSScore')
+const CRSSVSValue = document.getElementById('CRSSVSValue')
+
+CRSSVSScore.addEventListener('change', CRSSVSEvent)
+
+function CRSSVSEvent(e) {
+    if (CRSSVSScore.checkValidity()){
+        CRSSVSValue.innerHTML = CRSSVSScore.value * 10;
+        CRSSVSValue.classList.add('btn-outline-success')
+        CRSSVSValue.classList.remove('btn-outline-danger')
+        mentalAgilityUpdater()
+    } else {
+        CRSSVSValue.classList.remove('btn-outline-success')
+        CRSSVSValue.classList.add('btn-outline-danger')
+        CRSSVSValue.innerHTML = '<i class="bi bi-exclamation-lg"></i>'
+    }
+}
+
+// CRSGRD
+const CRSGRDScore = document.getElementById('CRSGRDScore')
+const CRSGRDValue = document.getElementById('CRSGRDValue')
+
+CRSGRDScore.addEventListener('change', CRSGRDEvent)
+
+function CRSGRDEvent(e) {
+    if (CRSGRDScore.checkValidity()){
+        CRSGRDValue.innerHTML = CRSGRDScore.value * 10;
+        CRSGRDValue.classList.add('btn-outline-success')
+        CRSGRDValue.classList.remove('btn-outline-danger')
+        mentalAgilityUpdater()
+    } else {
+        CRSGRDValue.classList.remove('btn-outline-success')
+        CRSGRDValue.classList.add('btn-outline-danger')
+        CRSGRDValue.innerHTML = '<i class="bi bi-exclamation-lg"></i>'
+    }
+}
+
+const mentalAgilityTotal = document.getElementById('mentalAgilityTotal');
+
+const mentalAgilityTotalBoard = document.getElementById('mentalAgilityTotalBoard')
+const mentalAgilityPercBoard = document.getElementById('mentalAgilityPercBoard')
+
+function mentalAgilityUpdater(){
+    let a = marineNetValue.innerHTML ? parseInt(marineNetValue.innerHTML) : 0;
+    let b = degreeValue.innerHTML ? parseInt(degreeValue.innerHTML) : 0;
+    let c = CRSSVSValue.innerHTML ? parseInt(CRSSVSValue.innerHTML) : 0;
+    let d = CRSGRDValue.innerHTML ? parseInt(CRSGRDValue.innerHTML) : 0;
+    let e = MOSandQualsValue.innerHTML ? parseInt(MOSandQualsValue.innerHTML) : 0;
+    mentalAgilityTotal.innerHTML = (a + b + c + d + e) * 1.25;
+    mentalAgilityTotalBoard.innerHTML = mentalAgilityTotal.innerHTML;
+    mentalAgilityPercBoard.innerHTML = Math.round((mentalAgilityTotalBoard.innerHTML / 250) * 100) + '%';
+
+}
+
+function calculateJepes() {
     let a = warTotalBoard.innerHTML
     let b = physicalTotalBoard.innerHTML
-    //let c = 
+    let c = mentalAgilityTotalBoard.innerHtml
     let d = commandPercBoard.innerHTML
     let e = bonusPercBoard.innerHTML
     jepesTotalBoard.innerHTML = parseFloat(a) + parseFloat(b) + parseFloat(d) + parseFloat(e);
