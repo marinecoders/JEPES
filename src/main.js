@@ -1837,7 +1837,7 @@ function updateRange(e) {
             rangeScore.classList.add('btn-outline-success');
             warCalculateTotal();
         } else {
-            rangeScore.innerHTML = '<i class="fas fa-exclamation"></i>'
+            rangeScore.innerHTML = '<i class="bi bi-exclamation-lg"></i>'
             rangeScore.classList.add('btn-outline-danger');
             rangeScore.classList.remove('btn-outline-success');
         }
@@ -1845,8 +1845,8 @@ function updateRange(e) {
 }
 
 function warCalculateTotal() {
-    let _range = Number.isInteger(rangeScore.innerHTML) ? 0 : rangeScore.innerHTML;
-    let _belt = Number.isInteger(mcmapBeltValue.innerHTML) ? 0 : mcmapBeltValue.innerHTML;
+    let _range = Number.isInteger(rangeScore.innerHTML) ? 0 : parseInt(rangeScore.innerHTML);
+    let _belt = Number.isInteger(mcmapBeltValue.innerHTML) ? 0 : parseInt(mcmapBeltValue.innerHTML);
 
     warCalculation.value = "( " + _range + " + " + _belt + " ) x 1.25";
     warTotal.innerHTML = (parseInt(_range) + parseInt(_belt)) * 1.25;
@@ -1905,8 +1905,8 @@ function updateCFT(e) {
 }
 
 function calculateTotal() {
-    let pft = Number.isInteger(pftScoreJValue.innerHTML) ? 0 : pftScoreJValue.innerHTML;
-    let cft = Number.isInteger(cftScoreJValue.innerHTML) ? 0 : cftScoreJValue.innerHTML;
+    let pft = Number.isInteger(pftScoreJValue.innerHTML) ? 0 : parseInt(pftScoreJValue.innerHTML);
+    let cft = Number.isInteger(cftScoreJValue.innerHTML) ? 0 : parseInt(cftScoreJValue.innerHTML);
 
     physicalCalculation.value = "( " + pft + " + " + cft + " ) x 1.25";
     physicalTotal.innerHTML = (parseInt(pft) + parseInt(cft)) * 1.25;
@@ -1916,8 +1916,6 @@ function calculateTotal() {
     calculateJepes()
 }
 
-
-//
 
 // Bonus Selectors
 
